@@ -13,61 +13,50 @@ public class Main {
     public static void main(String[] args) {
         log = new StringBuilder();
         File root = new File("E://Games");
-        File src = new File(root, "src");
-        if (src.mkdir()) {
-            setSuccessfulLog(src.getAbsolutePath(), catalog);
+        String[] first = {"src", "res", "Save Games", "temp"};
+        String[] second = {"main", "test"};
+        String[] third = {"drawables", "vectors", "icons"};
+        for (String s : first) {
+            File file = new File(root, s);
+            makeDirectory(file);
+            switch (s) {
+                case "src":
+                    for (String s2 : second) {
+                        File file1 = new File(file, s2);
+                        makeDirectory(file1);
+                        if (s2.equals("main")) {
+                            File mainJava = new File(file1, "Main.java");
+                            makeFile(mainJava);
+                            File utilsJava = new File(file1, "Utils.java");
+                            makeFile(utilsJava);
+                        }
+                    }
+                    break;
+                case "res":
+                    for (String s3 : third) {
+                        File file2 = new File(file, s3);
+                        makeDirectory(file2);
+                    }
+                    break;
+                case "temp":
+                    File tempTxt = new File(file, "temp.txt");
+                    makeFile(tempTxt);
+            }
+
         }
-        File res = new File(root, "res");
-        if (res.mkdir()) {
-            setSuccessfulLog(res.getAbsolutePath(), catalog);
+    }
+
+    private static void makeDirectory(File file) {
+        if (file.mkdir()) {
+            setSuccessfulLog(file.getAbsolutePath(), catalog);
         }
-        File saveGames = new File(root, "Save Games");
-        if (saveGames.mkdir()) {
-            setSuccessfulLog(saveGames.getAbsolutePath(), catalog);
-        }
-        File temp = new File(root, "temp");
-        if (temp.mkdir()) {
-            setSuccessfulLog(temp.getAbsolutePath(), catalog);
-        }
-        File main = new File(src, "main");
-        if (main.mkdir()) {
-            setSuccessfulLog(main.getAbsolutePath(), catalog);
-        }
-        File test = new File(src, "test");
-        if (test.mkdir()) {
-            setSuccessfulLog(test.getAbsolutePath(), catalog);
-        }
-        File mainJava = new File(main, "Main.java");
+    }
+
+    private static void makeFile(File fileInput) {
         try {
-            mainJava.createNewFile();
-            setSuccessfulLog(mainJava.getAbsolutePath(), file);
-        } catch (IOException e) {
-            setFailedLog(mainJava.getAbsolutePath(), file, e.toString());
-        }
-        File utilsJava = new File(main, "Utils.java");
-        try {
-            utilsJava.createNewFile();
-            setSuccessfulLog(utilsJava.getAbsolutePath(), file);
-        } catch (IOException e) {
-            setFailedLog(utilsJava.getAbsolutePath(), file, e.toString());
-        }
-        File drawables = new File(res, "drawables");
-        if (drawables.mkdir()) {
-            setSuccessfulLog(drawables.getAbsolutePath(), catalog);
-        }
-        File vectors = new File(res, "vectors");
-        if (vectors.mkdir()) {
-            setSuccessfulLog(vectors.getAbsolutePath(), catalog);
-        }
-        File icons = new File(res, "icons");
-        if (icons.mkdir()) {
-            setSuccessfulLog(icons.getAbsolutePath(), catalog);
-        }
-        File tempTxt = new File(temp, "temp.txt");
-        try {
-            tempTxt.createNewFile();
-            setSuccessfulLog(tempTxt.getAbsolutePath(), file);
-            try(FileWriter writer = new FileWriter(tempTxt)) {
+            fileInput.createNewFile();
+            setSuccessfulLog(fileInput.getAbsolutePath(), file);
+            try(FileWriter writer = new FileWriter(fileInput)) {
                 writer.write(log.toString());
                 writer.flush();
             }
