@@ -10,51 +10,30 @@ public class Main {
 
     public static void main(String[] args) {
         log = new StringBuilder();
-        File root = new File("E://Games");
-        String[] first = {"src", "res", "Save Games", "temp"};
-        String[] second = {"main", "test"};
-        String[] third = {"drawables", "vectors", "icons"};
-        for (String s : first) {
-            File file = new File(root, s);
-            makeDirectory(file);
-            switch (s) {
-                case "src":
-                    for (String s2 : second) {
-                        File file1 = new File(file, s2);
-                        makeDirectory(file1);
-                        if (s2.equals("main")) {
-                            File mainJava = new File(file1, "Main.java");
-                            makeFile(mainJava);
-                            File utilsJava = new File(file1, "Utils.java");
-                            makeFile(utilsJava);
-                        }
-                    }
-                    break;
-                case "res":
-                    for (String s3 : third) {
-                        File file2 = new File(file, s3);
-                        makeDirectory(file2);
-                    }
-                    break;
-                case "temp":
-                    File tempTxt = new File(file, "temp.txt");
-                    makeFile(tempTxt);
-            }
-
-        }
+        String root = "E://Games/";
+        createCatalog(root, "Save Games");
+        createCatalog(root + "src", "test");
+        createFile(root + "src/main", "Main.java");
+        createFile(root + "src/main", "Utils.java");
+        createCatalog(root + "res", "drawables");
+        createCatalog(root + "res", "vectors");
+        createCatalog(root + "res", "icons");
+        createFile(root + "temp", "temp.txt");
     }
 
-    private static void makeDirectory(File file) {
-        if (file.mkdir()) {
-            setSuccessfulLog(file.getAbsolutePath(), catalog);
-        }
+    private static void createCatalog(String path, String fileName) {
+        File file = new File(path, fileName);
+        file.mkdirs();
+        setSuccessfulLog(file.getAbsolutePath(), catalog);
     }
 
-    private static void makeFile(File fileInput) {
+    private static void createFile(String path, String fileName) {
+        File fileCreate = new File(path, fileName);
+        fileCreate.getParentFile().mkdirs();
         try {
-            fileInput.createNewFile();
-            setSuccessfulLog(fileInput.getAbsolutePath(), file);
-            try(FileWriter writer = new FileWriter(fileInput)) {
+            fileCreate.createNewFile();
+            setSuccessfulLog(fileCreate.getAbsolutePath(), file);
+            try(FileWriter writer = new FileWriter(fileCreate)) {
                 writer.write(log.toString());
                 writer.flush();
             }
