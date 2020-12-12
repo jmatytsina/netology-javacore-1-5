@@ -1,8 +1,6 @@
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.time.LocalDateTime;
 
 public class Main {
