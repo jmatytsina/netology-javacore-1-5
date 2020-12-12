@@ -12,62 +12,30 @@ public class Main {
 
     public static void main(String[] args) {
         log = new StringBuilder();
-        File root = new File("E://Games");
-        File src = new File(root, "src");
-        if (src.mkdir()) {
-            setSuccessfulLog(src.getAbsolutePath(), catalog);
-        }
-        File res = new File(root, "res");
-        if (res.mkdir()) {
-            setSuccessfulLog(res.getAbsolutePath(), catalog);
-        }
-        File saveGames = new File(root, "Save Games");
-        if (saveGames.mkdir()) {
-            setSuccessfulLog(saveGames.getAbsolutePath(), catalog);
-        }
-        File temp = new File(root, "temp");
-        if (temp.mkdir()) {
-            setSuccessfulLog(temp.getAbsolutePath(), catalog);
-        }
-        File main = new File(src, "main");
-        if (main.mkdir()) {
-            setSuccessfulLog(main.getAbsolutePath(), catalog);
-        }
-        File test = new File(src, "test");
-        if (test.mkdir()) {
-            setSuccessfulLog(test.getAbsolutePath(), catalog);
-        }
-        File mainJava = new File(main, "Main.java");
+        String root = "E://Games/";
+        createCatalog(root, "Save Games");
+        createCatalog(root + "src", "test");
+        createFile(root + "src/main", "Main.java");
+        createFile(root + "src/main", "Utils.java");
+        createCatalog(root + "res", "drawables");
+        createCatalog(root + "res", "vectors");
+        createCatalog(root + "res", "icons");
+        createFile(root + "temp", "temp.txt");
+    }
+
+    private static void createCatalog(String path, String fileName) {
+        File file = new File(path, fileName);
+        file.mkdirs();
+        setSuccessfulLog(file.getAbsolutePath(), catalog);
+    }
+
+    private static void createFile(String path, String fileName) {
+        File fileCreate = new File(path, fileName);
+        fileCreate.getParentFile().mkdirs();
         try {
-            mainJava.createNewFile();
-            setSuccessfulLog(mainJava.getAbsolutePath(), file);
-        } catch (IOException e) {
-            setFailedLog(mainJava.getAbsolutePath(), file, e.toString());
-        }
-        File utilsJava = new File(main, "Utils.java");
-        try {
-            utilsJava.createNewFile();
-            setSuccessfulLog(utilsJava.getAbsolutePath(), file);
-        } catch (IOException e) {
-            setFailedLog(utilsJava.getAbsolutePath(), file, e.toString());
-        }
-        File drawables = new File(res, "drawables");
-        if (drawables.mkdir()) {
-            setSuccessfulLog(drawables.getAbsolutePath(), catalog);
-        }
-        File vectors = new File(res, "vectors");
-        if (vectors.mkdir()) {
-            setSuccessfulLog(vectors.getAbsolutePath(), catalog);
-        }
-        File icons = new File(res, "icons");
-        if (icons.mkdir()) {
-            setSuccessfulLog(icons.getAbsolutePath(), catalog);
-        }
-        File tempTxt = new File(temp, "temp.txt");
-        try {
-            tempTxt.createNewFile();
-            setSuccessfulLog(tempTxt.getAbsolutePath(), file);
-            try(FileWriter writer = new FileWriter(tempTxt)) {
+            fileCreate.createNewFile();
+            setSuccessfulLog(fileCreate.getAbsolutePath(), file);
+            try(FileWriter writer = new FileWriter(fileCreate)) {
                 writer.write(log.toString());
                 writer.flush();
             }
